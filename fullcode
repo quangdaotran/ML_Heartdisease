@@ -1,4 +1,4 @@
-### import necessary libraries and functions
+### Import necessary libraries and functions
 import time
 import numpy as np
 import pandas as pd
@@ -8,4 +8,19 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split 
 from sklearn.linear_model import LogisticRegression
 
-### 
+### Load the dataset
+heart = pd.read_csv("D:/Business Analytics Program/Courses/Applied Machine Learning/datasets/heart.csv",) 
+heart.head(5)
+
+### Review the data
+heart = heart.drop(['patientid'],axis =1)
+print(heart.dtypes)
+rows, columns = heart.shape
+print("Rows:", rows)
+print("Columns:", columns)
+
+# Check for null values
+heart.isnull().any() 
+
+#Use pairs plot illustrate the data
+sns.pairplot(heart.iloc[:,7:15])
