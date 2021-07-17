@@ -1,7 +1,3 @@
-# ML_Heartdisease
-
-This repository contains all the codes used for the Applied Machine Learning_Heart disease Project
-
 The used data is obtained from Kaggle: https://www.kaggle.com/ronitf/heart-disease-uci
 The presence of heart disease is presented by variable "target".  It is integer valued from 0 (no presence) to 4. However, experiments with the database have concentrated on simply attempting to distinguish presence (values 1,2,3,4) from absence (value 0)
 
