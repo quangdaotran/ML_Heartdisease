@@ -5,6 +5,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn import metrics
 import matplotlib.pyplot as plt
+from sklearn import preprocessing
 from sklearn.model_selection import train_test_split 
 from sklearn.linear_model import LogisticRegression
 
@@ -19,8 +20,140 @@ rows, columns = heart.shape
 print("Rows:", rows)
 print("Columns:", columns)
 
-# Check for null values
+### Check for null values
 heart.isnull().any() 
 
-#Use pairs plot illustrate the data
+### Use pairs plot illustrate the data
 sns.pairplot(heart.iloc[:,7:15])
+
+### Split the data set in predictors and predicted
+feature_cols = ['age','sex','cp','trestbps','chol','fbs','restecg','thalach','exang','oldpeak','slope','ca','thal']
+X = heart[feature_cols] # Features
+y = heart.target # Target variable
+
+### Split the data into training and testing set:
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3,random_state=1)
+
+### Create three empty lists to fill the values of metrics
+Training = []
+Testing = []
+Running = []
+
+### Logistic Regression:
+X_train_scaled = preprocessing.scale(X_train) ## scale the dataset to solve the problem: TOTAL NO. of ITERATIONS REACHED LIMIT
+X_test_scaled = preprocessing.scale(X_test)
+Start_time = time.time() ## Saving current time
+LogisticReg = LogisticRegression(penalty = 'l2',solver = 'lbfgs') ## default option
+LogisticReg.fit(X_train_scaled,y_train)
+y_pred_Train = LogisticReg.predict(X_train_scaled)
+y_pred_Test = LogisticReg.predict(X_test_scaled) 
+End_time = time.time() ## Saving current time
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Naive Bayes Gaussian
+Start_time = time.time()
+NBayes = naive_bayes.GaussianNB()
+NBayes.fit(X_train,y_train)
+y_pred_Train = NBayes.predict(X_train)
+y_pred_Test = NBayes.predict(X_test)
+End_time = time.time() 
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Naive Bayes Bernoulli
+Start_time = time.time()
+NBayes = naive_bayes.BernoulliNB()
+NBayes.fit(X_train,y_train)
+y_pred_Train = NBayes.predict(X_train)
+y_pred_Test = NBayes.predict(X_test)
+End_time = time.time() 
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Naive Bayes Complement
+Start_time = time.time()
+NBayes = naive_bayes.ComplementNB()
+NBayes.fit(X_train,y_train)
+y_pred_Train = NBayes.predict(X_train)
+y_pred_Test = NBayes.predict(X_test)
+End_time = time.time() 
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Decision Tree
+Start_time = time.time()
+dtree = DecisionTreeClassifier()  ## Gini is the default classifier 
+dtree.fit(X_train,y_train)
+y_pred_Train = dtree.predict(X_train)
+y_pred_Test = dtree.predict(X_test)
+End_time = time.time()
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Random Forest
+Start_time = time.time()
+dForest = RandomForestClassifier(criterion = 'gini',max_features='auto') ## default parameters
+dForest.fit(X_train,y_train)
+y_pred_Train = dForest.predict(X_train)
+y_pred_Test = dForest.predict(X_test)
+End_time = time.time()
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### K Nearest Neighbors
+Start_time = time.time()
+KNN = KNeighborsClassifier(n_neighbors=10)
+KNN.fit(X_train,y_train)
+y_pred_Train = KNN.predict(X_train)
+y_pred_Test = KNN.predict(X_test)
+End_time = time.time()
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Extra Trees Classifier
+Start_time = time.time()
+ETrees = ExtraTreesClassifier()
+ETrees.fit(X_train,y_train)
+y_pred_Train = ETrees.predict(X_train)
+y_pred_Test = ETrees.predict(X_test)
+End_time = time.time()
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Gradient Boost Classifier
+Start_time = time.time()
+GBoost = GradientBoostingClassifier()
+GBoost.fit(X_train,y_train)
+y_pred_Train = GBoost.predict(X_train)
+y_pred_Test = GBoost.predict(X_test)
+End_time = time.time()
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Support Vector Classifier
+Start_time = time.time()
+SVector = SVC(kernel = 'rbf') ## default kernel
+SVector.fit(X_train,y_train)
+y_pred_Train = SVector.predict(X_train)
+y_pred_Test = SVector.predict(X_test)
+End_time = time.time()
+Training.append(float(round(metrics.accuracy_score(y_train,y_pred_Train),4)))
+Testing.append(float(round(metrics.accuracy_score(y_test, y_pred_Test),4)))
+Running.append(float(round(End_time - Start_time,6)))
+
+### Create a table of results
+index = ['Logistic Regression','Naive Bayes Gausian', 'Naive Bayes Bernoulli','Naive Bayes Complement','Decision Tree', 
+         'Random Forest', 'K Nearest Neighbors', 'Extra Trees', 'Gradient Boost', 'Support Vector']
+data = {'Training Accuracy':Training,'Testing Accuracy':Testing, 'Running Time':Running}
+Result = pd.DataFrame(data = data,index = index)
+print(Result)
