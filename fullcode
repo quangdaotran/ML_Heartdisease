@@ -1,13 +1,28 @@
 ### Import necessary libraries and functions
 import time
+import pydotplus
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from numpy import unique
 from sklearn import metrics
+from sklearn.svm import SVC
 import matplotlib.pyplot as plt
+from sklearn import naive_bayes
+from IPython.display import Image
 from sklearn import preprocessing
-from sklearn.model_selection import train_test_split 
+from sklearn.tree import plot_tree
+from sklearn.tree import export_graphviz
+from sklearn.externals.six import StringIO
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingClassifier 
+from sklearn.feature_selection import VarianceThreshold
 
 ### Load the dataset
 heart = pd.read_csv("D:/Business Analytics Program/Courses/Applied Machine Learning/datasets/heart.csv",) 
